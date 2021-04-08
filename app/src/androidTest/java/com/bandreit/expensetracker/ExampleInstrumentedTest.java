@@ -1,4 +1,4 @@
-package com.bandreit.and1_expense_tracker;
+package com.bandreit.expensetracker;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.bandreit.and1_expense_tracker", appContext.getPackageName());
+        assertEquals("com.bandreit.expensetracker", appContext.getPackageName());
     }
 }

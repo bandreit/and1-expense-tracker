@@ -1,4 +1,4 @@
-package com.bandreit.and1_expense_tracker;
+package com.bandreit.expensetracker;
 
 import org.junit.Test;
 
