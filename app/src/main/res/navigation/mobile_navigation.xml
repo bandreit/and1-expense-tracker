@@ -22,4 +22,10 @@
         android:name="com.bandreit.expensetracker.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/addItemFragment"
+        android:name="com.bandreit.expensetracker.ui.addItem.AddItemFragment"
+        android:label="fragment_add_item"
+        tools:layout="@layout/fragment_add_item" />
 </navigation>
