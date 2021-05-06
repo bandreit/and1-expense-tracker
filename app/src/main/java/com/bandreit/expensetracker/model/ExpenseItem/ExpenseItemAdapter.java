@@ -9,13 +9,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bandreit.expensetracker.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Formatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class ExpenseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -45,14 +51,15 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             Formatter formatter = new Formatter();
             formatter.format("%.2f", expenseItem.getAmount().getCurrencyAmount());
             h.amount.setText(getTypeOfExpense(expenseItem.getType()) + expenseItem.getAmount().getCurrency().getSymbol() + formatter.toString());
-            h.category.setText(expenseItem.getCategory());
-            h.categoryImage.setImageResource(expenseItem.getImageId());
-            String date = "feb" + " " + expenseItem.getDate().getDay();
+            h.category.setText(expenseItem.getCategory().getName());
+            h.categoryImage.setImageResource(expenseItem.getCategory().getImageId());
+            String date = expenseItem.getDate().get(Calendar.DATE) + " " + theMonth(expenseItem.getDate().get(Calendar.MONTH));
             h.date.setText(date);
-            h.categoryImageBackground.setBackgroundResource(BACKGROUNDS[(int) (Math.random() * (5))]);
+            h.categoryImageBackground.setBackgroundResource(expenseItem.getCategory().getBackgroundId());
         } else {
             SectionViewHolder h = (SectionViewHolder) holder;
-            h.deviderText.setText(item.getSection());
+            Calendar date = item.getSection();
+            h.deviderText.setText(date.get(Calendar.DATE) + " " + date.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + " " + date.get(Calendar.YEAR));
         }
     }
 
@@ -65,8 +72,38 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return sectionOrRows.size();
     }
 
-    public void updateList(List<SectionOrRow> expenseItems) {
-        this.sectionOrRows = expenseItems;
+    public void updateList(List<ExpenseItem> allExpenseItems) {
+        Map<Calendar, List<ExpenseItem>> map = new HashMap<>();
+
+        if (allExpenseItems != null) {
+            for (ExpenseItem eItem : allExpenseItems) {
+                Calendar key = eItem.getDate();
+
+                if (map.containsKey(key)) {
+                    List<ExpenseItem> list = map.get(key);
+                    list.add(eItem);
+                } else {
+                    List<ExpenseItem> list = new ArrayList<ExpenseItem>();
+                    list.add(eItem);
+                    map.put(key, list);
+                }
+            }
+        }
+
+        ArrayList<SectionOrRow> groupedExpenseItemsList = new ArrayList<>();
+
+        List<Calendar> toSortBy = new ArrayList<>(map.keySet());
+        Collections.sort(toSortBy);
+        Collections.reverse(toSortBy);
+
+        for (Calendar date : toSortBy) {
+            groupedExpenseItemsList.add(SectionOrRow.createSection(date));
+            for (ExpenseItem expenseItem : map.get(date)) {
+                groupedExpenseItemsList.add(SectionOrRow.createRow(expenseItem));
+            }
+        }
+
+        this.sectionOrRows = groupedExpenseItemsList;
         notifyDataSetChanged();
     }
 
@@ -89,7 +126,7 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             date = itemView.findViewById(R.id.expense_item_date);
             amount = itemView.findViewById(R.id.expense_item_amount);
             categoryImage = itemView.findViewById(R.id.expense_item_category_image);
-            categoryImageBackground = itemView.findViewById(R.id.category_image_background);
+            categoryImageBackground = itemView.findViewById(R.id.ep_category_image_background);
         }
     }
 
@@ -103,8 +140,10 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public void deleteItem(int position) {
-//        ExpenseItem expenseItem = sectionOrRows.get(position);
-//        sectionOrRows.remove(expenseItem);
+        SectionOrRow row = sectionOrRows.get(position);
+        ExpenseItem expenseItem = row.getRow();
+        ExpenseItemRepository.getInstance().deleteExpense(expenseItem.getId());
+        sectionOrRows.remove(row);
         notifyItemRemoved(position);
     }
 
@@ -117,5 +156,10 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         } else {
             return 1;
         }
+    }
+
+    public static String theMonth(int month) {
+        String[] monthNames = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        return monthNames[month];
     }
 }

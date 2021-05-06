@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/category_image_background"
+            android:id="@+id/ep_category_image_background"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

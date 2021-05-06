@@ -24,7 +24,7 @@
             </ImageView>
         </LinearLayout>
 
-        
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -51,7 +51,7 @@
                 android:id="@+id/expense_item_category">
             </TextView>
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"

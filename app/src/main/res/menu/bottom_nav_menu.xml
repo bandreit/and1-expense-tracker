@@ -12,8 +12,8 @@
         android:title="@string/title_dashboard" />
 
     <item
-        android:id="@+id/addItemFragment"
-        android:icon="@drawable/ic_add_circle_red"
+        android:id="@+id/add_item_1"
+        android:icon="@drawable/ic_add_circle_blue"
         android:title="@string/add_item" />
 
     <item

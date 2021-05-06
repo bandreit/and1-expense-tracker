@@ -1,33 +1,63 @@
 package com.bandreit.expensetracker.model.ExpenseItem;
 
-import java.util.Date;
 
-public class ExpenseItem {
-    private final String title;
-    private final String category;
-    private final Date date;
-    private final ExpenseAmount amount;
-    private final ExpenseType type;
-    private final int imageId;
+import com.bandreit.expensetracker.model.Categories.Category;
+import com.google.firebase.database.Exclude;
 
-    public ExpenseItem(String title, String category, Date date, ExpenseAmount amount, ExpenseType type, int imageId) {
+import java.util.Calendar;
+
+public class ExpenseItem implements Comparable<ExpenseItem> {
+    private String id;
+    private String title;
+    private Category category;
+    private Calendar date;
+    private long timestamp;
+    private ExpenseAmount amount;
+    private ExpenseType type;
+//    private int imageId;
+
+    public ExpenseItem(String title, Category category, Calendar date, ExpenseAmount amount, ExpenseType type) {
         this.title = title;
         this.category = category;
         this.date = date;
+        timestamp = date.getTimeInMillis();
         this.amount = amount;
         this.type = type;
-        this.imageId = imageId;
+//        this.imageId = imageId;
+    }
+
+    public ExpenseItem() {
+        this.title = null;
+        this.category = null;
+        this.date = null;
+        this.timestamp = 0;
+        this.amount = null;
+        this.type = null;
+//        this.imageId = -1;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public Date getDate() {
+    @Exclude
+    public Calendar getDate() {
         return date;
     }
 
@@ -39,7 +69,43 @@ public class ExpenseItem {
         return type;
     }
 
-    public int getImageId() {
-        return imageId;
+//    public int getImageId() {
+//        return imageId;
+//    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDate(Calendar date) {
+        this.date = date;
+    }
+
+    public void setAmount(ExpenseAmount amount) {
+        this.amount = amount;
+    }
+
+    public void setType(ExpenseType type) {
+        this.type = type;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+//    public void setImageId(int imageId) {
+//        this.imageId = imageId;
+//    }
+
+    @Override
+    public int compareTo(ExpenseItem expenseItem) {
+        if (getDate() == null || expenseItem.getDate() == null) {
+            return 0;
+        }
+        return getDate().compareTo(expenseItem.getDate());
     }
 }

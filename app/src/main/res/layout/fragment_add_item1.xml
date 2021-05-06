@@ -4,17 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/layout_bg_activity"
-    tools:context=".ui.addItem.AddItemFragment">
+    tools:context=".ui.addItem.AddItemStep1Fragment"
+    android:layout_gravity="center"
+    android:paddingHorizontal="20dp">
 
-    <GridView
-        android:id="@+id/gridView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:horizontalSpacing="4dp"
-        android:numColumns="4"
-        android:padding="36dp"
-        android:verticalSpacing="4dp">
-
-    </GridView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categories_recycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        android:paddingTop="20dp"
+        android:clipToPadding="false"/>
 
 </LinearLayout>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "351733344796",
+    "project_id": "and1-expensetracker",
+    "storage_bucket": "and1-expensetracker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351733344796:android:c81884d6bbaab0e6544dd9",
+        "android_client_info": {
+          "package_name": "com.bandreit.expensetracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "351733344796-dbtf07ma23cmnik0dqb7rfufd9rpj2d4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bandreit.expensetracker",
+            "certificate_hash": "63b684ef4056811e3a1004f559c04477ee4e688a"
+          }
+        },
+        {
+          "client_id": "351733344796-1irqse4nc9lr58q4nrbhmjqkng5bj19s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1AKPcMdbs5_Vww57nRSUSgDMkUTUXTA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "351733344796-1irqse4nc9lr58q4nrbhmjqkng5bj19s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
