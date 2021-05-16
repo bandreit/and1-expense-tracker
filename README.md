@@ -9,22 +9,21 @@ Getting your head around the Danish tax system is also difficult for the beginne
 ## Must have
 
 - [ ] User can create an account
-- [ ] User can add, edit and delete expenses into the app
-- [ ] User can split expenses into defined categories and create new ones
+- [ ] User can add, edit and delete transactions into the app
+- [ ] User can split transactions into defined categories and create new ones
 - [ ] User can select a saving plan or can create a new one
-- [ ] User can see a dashboard of current and past expenses broken down in categories
+- [ ] User can see a dashboard of current and past transactions broken down in categories
 - [ ] User can input and get a rough estimation and breakdown of salary and SU taxes with info on Tax Cards and Exceptions
 - [ ] User can set goals for a specifc amount of money and see the progress
 - [ ] User can get a rough estimation of how much savings will there be in the account if following a specific plan
 
 ## Should have
-- [ ] User can keep track of debt to other people and to him
+- [ ] User can convert through currencies 
 - [ ] User can input the weight and cost of an item and get the quantity/price or price/quantity rate
 - [ ] User can keep track of monthly subscriptions 
 
 ## Could have
-
-- [ ] User can convert through currencies 
+- [ ] User can keep track of debt to other people and to him
 - [ ] User can import data from other banks that provide public API's or support for it
 
 ## Will not have
