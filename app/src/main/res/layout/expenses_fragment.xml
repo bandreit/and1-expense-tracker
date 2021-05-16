@@ -7,34 +7,56 @@
     tools:context=".ui.dashboard.income.IncomeFragment">
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/expenseLineChart"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <TextView
-            style="bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/quicksand_bold"
-            android:paddingStart="25dp"
-            android:paddingBottom="5dp"
-            android:text="@string/categorised_transactions"
-            android:textAppearance="@android:style/TextAppearance.Material.Headline"
-            android:textSize="18sp" />
+            android:layout_weight="1.1"
+            android:paddingBottom="5dp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/expense_history_recycle_view"
+            android:id="@+id/year_recycle_view_expenses"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.5" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="2" />
+            android:layout_marginBottom="100dp"
+            android:layout_weight="4">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/expense_history_recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/no_items_text"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/transacionProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:indeterminateTint="@color/blue"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

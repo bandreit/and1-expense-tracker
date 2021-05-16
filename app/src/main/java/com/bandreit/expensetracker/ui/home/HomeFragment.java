@@ -39,14 +39,13 @@ public class HomeFragment extends Fragment {
 
         isLoading.setValue(true);
 
-        progressBar = root.findViewById(R.id.transacionProgressBar);
         TextView textView = ((MainActivity) getActivity()).findViewById(R.id.fragment_title);
+        progressBar = root.findViewById(R.id.transacionProgressBar);
         TextView noItemsText = root.findViewById(R.id.no_items_text);
         textView.setText("Transactions");
 
         RecyclerView recyclerView = root.findViewById(R.id.expense_items_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setHasFixedSize(true);
         TransactionItemAdapter adapter = new TransactionItemAdapter();
         recyclerView.setAdapter(adapter);
 

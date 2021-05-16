@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.bandreit.expensetracker.model.categories.Category;
 import com.bandreit.expensetracker.model.expenseHistory.ExpenseHistory;
@@ -16,6 +17,7 @@ import com.bandreit.expensetracker.model.users.UserRepository;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,11 +25,14 @@ import java.util.Map;
 public class ExpensesViewModel extends AndroidViewModel {
     private final TransactionItemRepository transactionItemRepository;
     private final UserRepository userRepository;
+    public MutableLiveData<Integer> selectedYear;
 
     public ExpensesViewModel(Application app) {
         super(app);
         this.transactionItemRepository = TransactionItemRepository.getInstance();
         this.userRepository = UserRepository.getInstance(app);
+        selectedYear = new MutableLiveData<>();
+//        selectedYear.setValue(Calendar.getInstance().get(Calendar.YEAR));
     }
 
     public void init() {
@@ -37,6 +42,14 @@ public class ExpensesViewModel extends AndroidViewModel {
 
     public LiveData<List<TransactionItem>> getAllExpenseItems() {
         return transactionItemRepository.getAllExpenseItem();
+    }
+
+    public MutableLiveData<Integer> getSelectedYear() {
+        return selectedYear;
+    }
+
+    public void setSelectedYear(Integer year) {
+        selectedYear.setValue(year);
     }
 
     public ArrayList<ExpenseHistory> filterTransactionItemsByCategoryAndDate(List<TransactionItem> transactionItems) {
@@ -66,15 +79,7 @@ public class ExpensesViewModel extends AndroidViewModel {
             // Map of Expense Items By Date for each Category
             Map<Calendar, List<TransactionItem>> expenseItemsByDateMap = new HashMap<>();
             for (TransactionItem transactionItem : itemsByCategory) {
-                Calendar key = transactionItem.getDate();
-
-                key.set(Calendar.HOUR_OF_DAY, 0);
-                key.set(Calendar.HOUR, 0);
-                key.set(Calendar.MINUTE, 0);
-                key.set(Calendar.SECOND, 0);
-                key.set(Calendar.MILLISECOND, 0);
-                key.set(Calendar.DATE, 0);
-                key.set(Calendar.AM_PM, 0);
+                Calendar key = new GregorianCalendar(transactionItem.getDate().get(Calendar.YEAR), transactionItem.getDate().get(Calendar.MONTH), 1);
 
                 if (expenseItemsByDateMap.containsKey(key)) {
                     List<TransactionItem> list = expenseItemsByDateMap.get(key);
@@ -111,8 +116,7 @@ public class ExpensesViewModel extends AndroidViewModel {
 
         if (expenseHistoryArrayList != null) {
             for (ExpenseHistory eItem : expenseHistoryArrayList) {
-                int key = (eItem.getDate().get(Calendar.MONTH) + 1) % 12;
-                eItem.getDate().add(Calendar.MONTH, 1);
+                int key = eItem.getDate().get(Calendar.MONTH);
                 if (categorisedExpenseItemsMap.containsKey(key)) {
                     List<ExpenseHistory> list = categorisedExpenseItemsMap.get(key);
                     list.add(eItem);

@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class TransactionItemLiveData extends LiveData<List<TransactionItem>> {
@@ -23,10 +24,11 @@ public class TransactionItemLiveData extends LiveData<List<TransactionItem>> {
             for (DataSnapshot eItemSnapshot : snapshot.getChildren()) {
 
                 TransactionItem retrievedTransactionItem = eItemSnapshot.getValue(TransactionItem.class);
-                Calendar dateFromTimestamp = Calendar.getInstance();
+                Calendar dateFromTimestamp = new GregorianCalendar();
                 dateFromTimestamp.setTimeInMillis((Long) eItemSnapshot.child("timestamp").getValue());
 
                 retrievedTransactionItem.setDate(dateFromTimestamp);
+                retrievedTransactionItem.getDate().getTimeInMillis();
 
                 String currencyKey = (String) eItemSnapshot.child("amount").child("currencyKey").getValue();
                 Double currencyAmount = eItemSnapshot.child("amount").child("currencyAmount").getValue(Double.class);

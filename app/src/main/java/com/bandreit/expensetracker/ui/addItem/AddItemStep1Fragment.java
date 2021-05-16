@@ -34,7 +34,6 @@ public class AddItemStep1Fragment extends Fragment implements CategoryAdapter.On
         CategoryAdapter adapter = new CategoryAdapter(this);
         RecyclerView recyclerView = root.findViewById(R.id.categories_recycleView);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
         addItemViewModel.getCategories().observe(getViewLifecycleOwner(), adapter::updateList);

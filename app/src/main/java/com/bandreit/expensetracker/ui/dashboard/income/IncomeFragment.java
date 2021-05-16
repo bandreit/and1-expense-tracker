@@ -56,7 +56,6 @@ public class IncomeFragment extends Fragment {
 
         RecyclerView recyclerView = root.findViewById(R.id.income_history_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setHasFixedSize(true);
         ExpenseHistoryAdapter adapter = new ExpenseHistoryAdapter();
         recyclerView.setAdapter(adapter);
         initializeChart(root);

@@ -12,6 +12,7 @@ import com.bandreit.expensetracker.model.transactions.TransactionItemRepository;
 import com.bandreit.expensetracker.model.transactions.TransactionType;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class AddItemViewModel extends ViewModel {
@@ -68,8 +69,7 @@ public class AddItemViewModel extends ViewModel {
     }
 
     public void selectDate(int selectedDay, int selectedMonth, int selectedYear) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(selectedYear, selectedMonth, selectedDay);
+        Calendar calendar = new GregorianCalendar(selectedYear, selectedMonth, selectedDay);
         localTransactionItem.setTimestamp(calendar.getTimeInMillis());
         localTransactionItem.setDate(calendar);
         expenseItemToAdd.setValue(localTransactionItem);
