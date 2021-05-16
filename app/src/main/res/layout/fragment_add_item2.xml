@@ -114,6 +114,7 @@
         android:background="@drawable/layout_bg2"
         android:ems="10"
         android:hint="Netto"
+        android:imeOptions="actionDone"
         android:gravity="center"
         android:textSize="40sp"
         android:textStyle="bold"

@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.bandreit.expensetracker.model.Categories.Category;
-import com.bandreit.expensetracker.model.Categories.CategoryRepository;
-import com.bandreit.expensetracker.model.ExpenseItem.ExpenseAmount;
-import com.bandreit.expensetracker.model.ExpenseItem.ExpenseItem;
-import com.bandreit.expensetracker.model.ExpenseItem.ExpenseItemRepository;
-import com.bandreit.expensetracker.model.ExpenseItem.ExpenseType;
+import com.bandreit.expensetracker.model.categories.Category;
+import com.bandreit.expensetracker.model.categories.CategoryRepository;
+import com.bandreit.expensetracker.model.transactions.TransactionAmount;
+import com.bandreit.expensetracker.model.transactions.TransactionItem;
+import com.bandreit.expensetracker.model.transactions.TransactionItemRepository;
+import com.bandreit.expensetracker.model.transactions.TransactionType;
 
 import java.util.Calendar;
 import java.util.List;
@@ -17,9 +17,9 @@ import java.util.List;
 public class AddItemViewModel extends ViewModel {
 
     private final CategoryRepository categoryRepository;
-    private ExpenseItemRepository expenseItemRepository;
-    private final ExpenseItem localExpenseItem;
-    private final MutableLiveData<ExpenseItem> expenseItemToAdd;
+    private TransactionItemRepository transactionItemRepository;
+    private final TransactionItem localTransactionItem;
+    private final MutableLiveData<TransactionItem> expenseItemToAdd;
     private static AddItemViewModel instance;
 
     public static synchronized AddItemViewModel getInstance() {
@@ -30,37 +30,37 @@ public class AddItemViewModel extends ViewModel {
 
     private AddItemViewModel() {
         categoryRepository = new CategoryRepository();
-        expenseItemRepository = ExpenseItemRepository.getInstance();
-        localExpenseItem = new ExpenseItem();
+        transactionItemRepository = TransactionItemRepository.getInstance();
+        localTransactionItem = new TransactionItem();
         expenseItemToAdd = new MutableLiveData<>();
     }
 
     public void addItem() {
-        expenseItemRepository.addExpenseItem(expenseItemToAdd.getValue());
+        transactionItemRepository.addExpenseItem(expenseItemToAdd.getValue());
     }
 
-    public LiveData<ExpenseItem> getCurrentExpenseItem() {
+    public LiveData<TransactionItem> getCurrentExpenseItem() {
         return expenseItemToAdd;
     }
 
     public void selectCategory(Category clickedCategory) {
-        localExpenseItem.setCategory(clickedCategory);
-        expenseItemToAdd.setValue(localExpenseItem);
+        localTransactionItem.setCategory(clickedCategory);
+        expenseItemToAdd.setValue(localTransactionItem);
     }
 
-    public void selectExpenseType(ExpenseType expenseType) {
-        localExpenseItem.setType(expenseType);
-        expenseItemToAdd.setValue(localExpenseItem);
+    public void selectExpenseType(TransactionType transactionType) {
+        localTransactionItem.setType(transactionType);
+        expenseItemToAdd.setValue(localTransactionItem);
     }
 
-    public void selectAmount(ExpenseAmount expenseAmount) {
-        localExpenseItem.setAmount(expenseAmount);
-        expenseItemToAdd.setValue(localExpenseItem);
+    public void selectAmount(TransactionAmount transactionAmount) {
+        localTransactionItem.setAmount(transactionAmount);
+        expenseItemToAdd.setValue(localTransactionItem);
     }
 
     public void selectTitle(String title) {
-        localExpenseItem.setTitle(title);
-        expenseItemToAdd.setValue(localExpenseItem);
+        localTransactionItem.setTitle(title);
+        expenseItemToAdd.setValue(localTransactionItem);
     }
 
     public LiveData<List<Category>> getCategories() {
@@ -70,8 +70,8 @@ public class AddItemViewModel extends ViewModel {
     public void selectDate(int selectedDay, int selectedMonth, int selectedYear) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(selectedYear, selectedMonth, selectedDay);
-        localExpenseItem.setTimestamp(calendar.getTimeInMillis());
-        localExpenseItem.setDate(calendar);
-        expenseItemToAdd.setValue(localExpenseItem);
+        localTransactionItem.setTimestamp(calendar.getTimeInMillis());
+        localTransactionItem.setDate(calendar);
+        expenseItemToAdd.setValue(localTransactionItem);
     }
 }

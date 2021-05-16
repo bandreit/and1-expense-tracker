@@ -1,22 +1,22 @@
-package com.bandreit.expensetracker.model.ExpenseItem;
+package com.bandreit.expensetracker.model.transactions;
 
 
-import com.bandreit.expensetracker.model.Categories.Category;
+import com.bandreit.expensetracker.model.categories.Category;
 import com.google.firebase.database.Exclude;
 
 import java.util.Calendar;
 
-public class ExpenseItem implements Comparable<ExpenseItem> {
+public class TransactionItem implements Comparable<TransactionItem> {
     private String id;
     private String title;
     private Category category;
     private Calendar date;
     private long timestamp;
-    private ExpenseAmount amount;
-    private ExpenseType type;
+    private TransactionAmount amount;
+    private TransactionType type;
 //    private int imageId;
 
-    public ExpenseItem(String title, Category category, Calendar date, ExpenseAmount amount, ExpenseType type) {
+    public TransactionItem(String title, Category category, Calendar date, TransactionAmount amount, TransactionType type) {
         this.title = title;
         this.category = category;
         this.date = date;
@@ -26,7 +26,7 @@ public class ExpenseItem implements Comparable<ExpenseItem> {
 //        this.imageId = imageId;
     }
 
-    public ExpenseItem() {
+    public TransactionItem() {
         this.title = null;
         this.category = null;
         this.date = null;
@@ -61,11 +61,11 @@ public class ExpenseItem implements Comparable<ExpenseItem> {
         return date;
     }
 
-    public ExpenseAmount getAmount() {
+    public TransactionAmount getAmount() {
         return amount;
     }
 
-    public ExpenseType getType() {
+    public TransactionType getType() {
         return type;
     }
 
@@ -81,11 +81,11 @@ public class ExpenseItem implements Comparable<ExpenseItem> {
         this.date = date;
     }
 
-    public void setAmount(ExpenseAmount amount) {
+    public void setAmount(TransactionAmount amount) {
         this.amount = amount;
     }
 
-    public void setType(ExpenseType type) {
+    public void setType(TransactionType type) {
         this.type = type;
     }
 
@@ -102,10 +102,10 @@ public class ExpenseItem implements Comparable<ExpenseItem> {
 //    }
 
     @Override
-    public int compareTo(ExpenseItem expenseItem) {
-        if (getDate() == null || expenseItem.getDate() == null) {
+    public int compareTo(TransactionItem transactionItem) {
+        if (getDate() == null || transactionItem.getDate() == null) {
             return 0;
         }
-        return getDate().compareTo(expenseItem.getDate());
+        return getDate().compareTo(transactionItem.getDate());
     }
 }

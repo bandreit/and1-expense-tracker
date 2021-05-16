@@ -1,14 +1,13 @@
-package com.bandreit.expensetracker.model.ExpenseItem;
+package com.bandreit.expensetracker.model.transactions;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class SectionOrRow {
-    private ExpenseItem row;
+    private TransactionItem row;
     private Calendar section;
     private boolean isRow;
 
-    public static SectionOrRow createRow(ExpenseItem row) {
+    public static SectionOrRow createRow(TransactionItem row) {
         SectionOrRow ret = new SectionOrRow();
         ret.row = row;
         ret.isRow = true;
@@ -22,7 +21,7 @@ public class SectionOrRow {
         return ret;
     }
 
-    public ExpenseItem getRow() {
+    public TransactionItem getRow() {
         return row;
     }
 

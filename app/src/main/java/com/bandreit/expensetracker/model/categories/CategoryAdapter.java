@@ -1,4 +1,4 @@
-package com.bandreit.expensetracker.model.Categories;
+package com.bandreit.expensetracker.model.categories;
 
 import android.view.LayoutInflater;
 import android.view.View;

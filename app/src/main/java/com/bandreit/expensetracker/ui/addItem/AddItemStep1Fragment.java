@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bandreit.expensetracker.MainActivity;
 import com.bandreit.expensetracker.R;
-import com.bandreit.expensetracker.model.Categories.Category;
-import com.bandreit.expensetracker.model.Categories.CategoryAdapter;
+import com.bandreit.expensetracker.model.categories.Category;
+import com.bandreit.expensetracker.model.categories.CategoryAdapter;
 
 public class AddItemStep1Fragment extends Fragment implements CategoryAdapter.OnListItemClickListener {
 

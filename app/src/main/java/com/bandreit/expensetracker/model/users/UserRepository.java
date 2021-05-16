@@ -1,4 +1,4 @@
-package com.bandreit.expensetracker.model.Users;
+package com.bandreit.expensetracker.model.users;
 
 import android.app.Application;
 

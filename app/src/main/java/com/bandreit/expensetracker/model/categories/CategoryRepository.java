@@ -1,4 +1,4 @@
-package com.bandreit.expensetracker.model.Categories;
+package com.bandreit.expensetracker.model.categories;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

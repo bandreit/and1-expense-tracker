@@ -1,23 +1,21 @@
-package com.bandreit.expensetracker.model.ExpenseItem;
-
-import android.icu.util.CurrencyAmount;
+package com.bandreit.expensetracker.model.transactions;
 
 import com.google.firebase.database.Exclude;
 
 import java.util.Currency;
 
-public class ExpenseAmount {
+public class TransactionAmount {
     private Currency currency;
     private String currencyKey;
     private double currencyAmount;
 
-    public ExpenseAmount(String currencyType, double currencyAmount) {
+    public TransactionAmount(String currencyType, double currencyAmount) {
         this.currencyKey = currencyType;
         this.currency = Currency.getInstance(currencyType);
         this.currencyAmount = currencyAmount;
     }
 
-    public ExpenseAmount() {
+    public TransactionAmount() {
     }
 
     public String getCurrencyKey() {

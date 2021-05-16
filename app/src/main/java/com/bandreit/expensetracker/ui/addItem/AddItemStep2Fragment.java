@@ -6,7 +6,6 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,8 +18,8 @@ import androidx.navigation.Navigation;
 
 import com.bandreit.expensetracker.MainActivity;
 import com.bandreit.expensetracker.R;
-import com.bandreit.expensetracker.model.ExpenseItem.ExpenseAmount;
-import com.bandreit.expensetracker.model.ExpenseItem.ExpenseType;
+import com.bandreit.expensetracker.model.transactions.TransactionAmount;
+import com.bandreit.expensetracker.model.transactions.TransactionType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -33,8 +32,8 @@ import java.util.List;
 public class AddItemStep2Fragment extends Fragment implements Validator.ValidationListener {
 
     private AddItemViewModel addItemViewModel;
-    private ExpenseType expenseType;
-    private ExpenseAmount expenseAmount;
+    private TransactionType transactionType;
+    private TransactionAmount transactionAmount;
     private String expenseTitle;
     private ImageView expenseTypeButton;
     private ImageView incomeTypeButton;
@@ -80,10 +79,10 @@ public class AddItemStep2Fragment extends Fragment implements Validator.Validati
         int incomeButtonHeight = incomeTypeButton.getLayoutParams().height;
         int incomeButtonWidth = incomeTypeButton.getLayoutParams().width;
 
-        expenseType = ExpenseType.EXPENSE;
+        transactionType = TransactionType.EXPENSE;
 
         expenseTypeButton.setOnClickListener(v -> {
-            expenseType = ExpenseType.EXPENSE;
+            transactionType = TransactionType.EXPENSE;
             expenseTypeButton.getLayoutParams().width = (int) (expenseButtonWidth * 1.3);
             expenseTypeButton.getLayoutParams().height = (int) (expenseButtonHeight * 1.3);
 
@@ -93,7 +92,7 @@ public class AddItemStep2Fragment extends Fragment implements Validator.Validati
         });
 
         incomeTypeButton.setOnClickListener(v -> {
-            expenseType = ExpenseType.INCOME;
+            transactionType = TransactionType.INCOME;
             incomeTypeButton.getLayoutParams().width = (int) (expenseButtonWidth * 1.3);
             incomeTypeButton.getLayoutParams().height = (int) (expenseButtonHeight * 1.3);
 
@@ -136,10 +135,10 @@ public class AddItemStep2Fragment extends Fragment implements Validator.Validati
     @Override
     public void onValidationSucceeded() {
         Toast.makeText(getContext(), "Expense registered!", Toast.LENGTH_SHORT).show();
-        expenseAmount = new ExpenseAmount("DKK", Double.parseDouble(String.valueOf(editTextAmount.getText())));
+        transactionAmount = new TransactionAmount("DKK", Double.parseDouble(String.valueOf(editTextAmount.getText())));
         expenseTitle = String.valueOf(editTextName.getText());
-        addItemViewModel.selectExpenseType(expenseType);
-        addItemViewModel.selectAmount(expenseAmount);
+        addItemViewModel.selectExpenseType(transactionType);
+        addItemViewModel.selectAmount(transactionAmount);
         addItemViewModel.selectTitle(expenseTitle);
         addItemViewModel.selectDate(selectedDay, selectedMonth, selectedYear);
         addItemViewModel.addItem();

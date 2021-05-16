@@ -14,13 +14,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bandreit.expensetracker.model.ExpenseItem.ExpenseItemAdapter;
+import com.bandreit.expensetracker.model.transactions.TransactionItemAdapter;
 
 public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 
-    private ExpenseItemAdapter adapter;
+    private TransactionItemAdapter adapter;
 
-    public RecyclerItemTouchHelper(ExpenseItemAdapter adapter) {
+    public RecyclerItemTouchHelper(TransactionItemAdapter adapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.adapter = adapter;
     }

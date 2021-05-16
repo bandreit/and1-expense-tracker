@@ -1,53 +1,41 @@
-package com.bandreit.expensetracker.model.ExpenseItem;
+package com.bandreit.expensetracker.model.transactions;
 
-import android.util.Log;
-
-import androidx.lifecycle.MutableLiveData;
-
-import com.bandreit.expensetracker.R;
-import com.bandreit.expensetracker.model.Categories.Category;
-import com.bandreit.expensetracker.model.Users.UserRepository;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Comment;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-public class ExpenseItemDao {
-    private ExpenseItemLiveData allExpenseItems;
-    private static ExpenseItemDao instance;
+public class TransactionItemDao {
+    private TransactionItemLiveData allExpenseItems;
+    private static TransactionItemDao instance;
     private FirebaseDatabase database;
+    private DatabaseReference userRef;
     private DatabaseReference expenseItemsRef;
+    private DatabaseReference balanceRef;
 
-    private ExpenseItemDao() {
+    private TransactionItemDao() {
     }
 
-    public static synchronized ExpenseItemDao getInstance() {
+    public static synchronized TransactionItemDao getInstance() {
         if (instance == null) {
-            instance = new ExpenseItemDao();
+            instance = new TransactionItemDao();
         }
         return instance;
     }
 
-    public ExpenseItemLiveData getAllExpenseItems() {
+    public TransactionItemLiveData getAllExpenseItems() {
         return allExpenseItems;
     }
 
-    public void addExpenseItem(ExpenseItem expenseItem) {
-        expenseItemsRef.push().setValue(expenseItem);
+    public void addExpenseItem(TransactionItem transactionItem) {
+        expenseItemsRef.push().setValue(transactionItem);
+        balanceRef.setValue(transactionItem.getAmount());
     }
 
     public void init(String userId) {
         this.database = FirebaseDatabase.getInstance("https://and1-expensetracker-default-rtdb.europe-west1.firebasedatabase.app/");
-        this.expenseItemsRef = database.getReference().child("users").child(userId).child("expense_items");
-        this.allExpenseItems = new ExpenseItemLiveData(expenseItemsRef);
-
+        this.userRef = database.getReference().child("users").child(userId);
+        this.expenseItemsRef = userRef.child("expense_items");
+        this.balanceRef = userRef.child("balance");
+        this.allExpenseItems = new TransactionItemLiveData(expenseItemsRef);
 //        ArrayList<ExpenseItem> expenseItems = new ArrayList<>();
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.set(Calendar.MONTH, 3);

@@ -1,4 +1,4 @@
-package com.bandreit.expensetracker.model.ExpenseItem;
+package com.bandreit.expensetracker.model.transactions;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bandreit.expensetracker.R;
@@ -23,9 +22,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class ExpenseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TransactionItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public static int[] BACKGROUNDS = {R.drawable.layout_bg, R.drawable.layout_bg2, R.drawable.layout_bg3, R.drawable.layout_bg4, R.drawable.layout_bg5};
     private View view;
     private List<SectionOrRow> sectionOrRows = new ArrayList<>();
 
@@ -45,17 +43,17 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         SectionOrRow item = sectionOrRows.get(position);
         if (item.isRow()) {
-            ExpenseItem expenseItem = item.getRow();
+            TransactionItem transactionItem = item.getRow();
             RowViewHolder h = (RowViewHolder) holder;
-            h.title.setText(expenseItem.getTitle());
+            h.title.setText(transactionItem.getTitle());
             Formatter formatter = new Formatter();
-            formatter.format("%.2f", expenseItem.getAmount().getCurrencyAmount());
-            h.amount.setText(getTypeOfExpense(expenseItem.getType()) + expenseItem.getAmount().getCurrency().getSymbol() + formatter.toString());
-            h.category.setText(expenseItem.getCategory().getName());
-            h.categoryImage.setImageResource(expenseItem.getCategory().getImageId());
-            String date = expenseItem.getDate().get(Calendar.DATE) + " " + theMonth(expenseItem.getDate().get(Calendar.MONTH));
+            formatter.format("%.2f", transactionItem.getAmount().getCurrencyAmount());
+            h.amount.setText(getTypeOfExpense(transactionItem.getType()) + transactionItem.getAmount().getCurrency().getSymbol() + formatter.toString());
+            h.category.setText(transactionItem.getCategory().getName());
+            h.categoryImage.setImageResource(transactionItem.getCategory().getImageId());
+            String date = transactionItem.getDate().get(Calendar.DATE) + " " + theMonth(transactionItem.getDate().get(Calendar.MONTH));
             h.date.setText(date);
-            h.categoryImageBackground.setBackgroundResource(expenseItem.getCategory().getBackgroundId());
+            h.categoryImageBackground.setBackgroundResource(transactionItem.getCategory().getBackgroundId());
         } else {
             SectionViewHolder h = (SectionViewHolder) holder;
             Calendar date = item.getSection();
@@ -63,8 +61,8 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    public String getTypeOfExpense(ExpenseType expenseType) {
-        return expenseType == ExpenseType.EXPENSE ? "-" : "+";
+    public String getTypeOfExpense(TransactionType transactionType) {
+        return transactionType == TransactionType.EXPENSE ? "-" : "+";
     }
 
     @Override
@@ -72,18 +70,23 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return sectionOrRows.size();
     }
 
-    public void updateList(List<ExpenseItem> allExpenseItems) {
-        Map<Calendar, List<ExpenseItem>> map = new HashMap<>();
+    public void updateList(List<TransactionItem> allTransactionItems) {
+        Map<Calendar, List<TransactionItem>> map = new HashMap<>();
 
-        if (allExpenseItems != null) {
-            for (ExpenseItem eItem : allExpenseItems) {
+        if (allTransactionItems != null) {
+            for (TransactionItem eItem : allTransactionItems) {
                 Calendar key = eItem.getDate();
 
+                key.set(Calendar.HOUR_OF_DAY, 0);
+                key.set(Calendar.MINUTE, 0);
+                key.set(Calendar.SECOND, 0);
+                key.set(Calendar.MILLISECOND, 0);
+
                 if (map.containsKey(key)) {
-                    List<ExpenseItem> list = map.get(key);
+                    List<TransactionItem> list = map.get(key);
                     list.add(eItem);
                 } else {
-                    List<ExpenseItem> list = new ArrayList<ExpenseItem>();
+                    List<TransactionItem> list = new ArrayList<TransactionItem>();
                     list.add(eItem);
                     map.put(key, list);
                 }
@@ -98,8 +101,11 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         for (Calendar date : toSortBy) {
             groupedExpenseItemsList.add(SectionOrRow.createSection(date));
-            for (ExpenseItem expenseItem : map.get(date)) {
-                groupedExpenseItemsList.add(SectionOrRow.createRow(expenseItem));
+            List<TransactionItem> itemsByDate = map.get(date);
+            Collections.sort(itemsByDate);
+            Collections.reverse(itemsByDate);
+            for (TransactionItem transactionItem : itemsByDate) {
+                groupedExpenseItemsList.add(SectionOrRow.createRow(transactionItem));
             }
         }
 
@@ -131,7 +137,7 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public class SectionViewHolder extends RecyclerView.ViewHolder {
-        private TextView deviderText;
+        private final TextView deviderText;
 
         public SectionViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -141,8 +147,8 @@ public class ExpenseItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void deleteItem(int position) {
         SectionOrRow row = sectionOrRows.get(position);
-        ExpenseItem expenseItem = row.getRow();
-        ExpenseItemRepository.getInstance().deleteExpense(expenseItem.getId());
+        TransactionItem transactionItem = row.getRow();
+        TransactionItemRepository.getInstance().deleteExpense(transactionItem.getId());
         sectionOrRows.remove(row);
         notifyItemRemoved(position);
     }
