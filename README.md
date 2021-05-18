@@ -9,7 +9,7 @@ Getting your head around the Danish tax system is also difficult for the beginne
 ## Must have
 
 - [x] User can create an account
-- [ ] User can keep track of live balance
+- [x] User can keep track of live balance
 - [x] User can see a list of all the recent transactions logged
 - [ ] User can add, edit and delete transactions with details (title, amount, date, etc.) into the app
 - [x] User can split transactions into defined categories and see them split by months/years
