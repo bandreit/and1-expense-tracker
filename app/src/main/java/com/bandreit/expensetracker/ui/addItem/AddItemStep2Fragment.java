@@ -179,14 +179,7 @@ public class AddItemStep2Fragment extends Fragment implements Validator.Validati
                     if (!task.isSuccessful()) {
                         throw task.getException();
                     }
-//                    uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-//                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-//                                    .getTotalByteCount());
-//                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
-//                        }
-//                    });
+
                     return ref.getDownloadUrl();
                 }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
