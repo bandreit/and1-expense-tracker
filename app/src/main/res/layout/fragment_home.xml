@@ -53,8 +53,8 @@
                 android:gravity="center"
                 android:text="@string/_0"
                 android:textAppearance="@android:style/TextAppearance.Material.Headline"
-                android:textSize="30sp"
                 android:textColor="@color/blue"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -97,6 +97,7 @@
         android:id="@+id/expense_items_recycle_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_default="spread"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -113,7 +114,7 @@
         android:id="@+id/transacionProgressBar"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="440dp"
         android:indeterminateTint="@color/blue"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

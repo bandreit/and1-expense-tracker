@@ -1,14 +1,20 @@
 package com.bandreit.expensetracker.model.transactions;
 
+import android.net.Uri;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.List;
 
 public class TransactionItemRepository {
     private TransactionItemDao transactionItemDao;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
     private static TransactionItemRepository instance;
 
     private TransactionItemRepository() {
@@ -36,5 +42,11 @@ public class TransactionItemRepository {
 
     public void init(String userId) {
         transactionItemDao.init(userId);
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+    }
+
+    public StorageReference getStorageReference() {
+        return storageReference;
     }
 }

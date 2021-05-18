@@ -1,6 +1,8 @@
 package com.bandreit.expensetracker.model.transactions;
 
 
+import android.net.Uri;
+
 import com.bandreit.expensetracker.model.categories.Category;
 import com.google.firebase.database.Exclude;
 
@@ -14,7 +16,7 @@ public class TransactionItem implements Comparable<TransactionItem> {
     private long timestamp;
     private TransactionAmount amount;
     private TransactionType type;
-//    private int imageId;
+    private String imageUri;
 
     public TransactionItem(String title, Category category, Calendar date, TransactionAmount amount, TransactionType type) {
         this.title = title;
@@ -23,7 +25,6 @@ public class TransactionItem implements Comparable<TransactionItem> {
         timestamp = date.getTimeInMillis();
         this.amount = amount;
         this.type = type;
-//        this.imageId = imageId;
     }
 
     public TransactionItem() {
@@ -33,7 +34,6 @@ public class TransactionItem implements Comparable<TransactionItem> {
         this.timestamp = 0;
         this.amount = null;
         this.type = null;
-//        this.imageId = -1;
     }
 
     public String getId() {
@@ -69,9 +69,17 @@ public class TransactionItem implements Comparable<TransactionItem> {
         return type;
     }
 
-//    public int getImageId() {
-//        return imageId;
-//    }
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
+    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -92,14 +100,6 @@ public class TransactionItem implements Comparable<TransactionItem> {
     public long getTimestamp() {
         return timestamp;
     }
-
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-//    public void setImageId(int imageId) {
-//        this.imageId = imageId;
-//    }
 
     @Override
     public int compareTo(TransactionItem transactionItem) {

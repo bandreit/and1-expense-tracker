@@ -1,5 +1,7 @@
 package com.bandreit.expensetracker.ui.addItem;
 
+import android.net.Uri;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -10,6 +12,7 @@ import com.bandreit.expensetracker.model.transactions.TransactionAmount;
 import com.bandreit.expensetracker.model.transactions.TransactionItem;
 import com.bandreit.expensetracker.model.transactions.TransactionItemRepository;
 import com.bandreit.expensetracker.model.transactions.TransactionType;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -64,6 +67,11 @@ public class AddItemViewModel extends ViewModel {
         expenseItemToAdd.setValue(localTransactionItem);
     }
 
+    public void setDownloadUri(Uri downloadUri) {
+        localTransactionItem.setImageUri(downloadUri.toString());
+        expenseItemToAdd.setValue(localTransactionItem);
+    }
+
     public LiveData<List<Category>> getCategories() {
         return categoryRepository.getOwnCategories();
     }
@@ -73,5 +81,9 @@ public class AddItemViewModel extends ViewModel {
         localTransactionItem.setTimestamp(calendar.getTimeInMillis());
         localTransactionItem.setDate(calendar);
         expenseItemToAdd.setValue(localTransactionItem);
+    }
+
+    public StorageReference getStorageReference() {
+        return transactionItemRepository.getStorageReference();
     }
 }
