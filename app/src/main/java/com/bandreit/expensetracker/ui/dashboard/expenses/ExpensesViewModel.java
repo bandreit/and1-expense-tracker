@@ -32,7 +32,6 @@ public class ExpensesViewModel extends AndroidViewModel {
         this.transactionItemRepository = TransactionItemRepository.getInstance();
         this.userRepository = UserRepository.getInstance(app);
         selectedYear = new MutableLiveData<>();
-//        selectedYear.setValue(Calendar.getInstance().get(Calendar.YEAR));
     }
 
     public void init() {

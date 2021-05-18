@@ -1,6 +1,7 @@
 package com.bandreit.expensetracker.model.transactions;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bandreit.expensetracker.R;
+import com.bandreit.expensetracker.model.expenseHistory.YearExpenseHistoryAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,6 +29,11 @@ public class TransactionItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private View view;
     private List<SectionOrRow> sectionOrRows = new ArrayList<>();
+    private final OnListItemClickListener mOnListItemClickListener;
+
+    public TransactionItemAdapter(OnListItemClickListener mOnListItemClickListener) {
+        this.mOnListItemClickListener = mOnListItemClickListener;
+    }
 
     @NonNull
     @Override
@@ -117,7 +125,7 @@ public class TransactionItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return view.getContext();
     }
 
-    public class RowViewHolder extends RecyclerView.ViewHolder {
+    public class RowViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView title;
         private final TextView category;
         private final TextView date;
@@ -133,6 +141,12 @@ public class TransactionItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             amount = itemView.findViewById(R.id.expense_item_amount);
             categoryImage = itemView.findViewById(R.id.expense_item_category_image);
             categoryImageBackground = itemView.findViewById(R.id.ep_category_image_background);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            mOnListItemClickListener.onListItemClick(sectionOrRows.get(getAdapterPosition()));
         }
     }
 
@@ -145,6 +159,7 @@ public class TransactionItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void deleteItem(int position) {
         SectionOrRow row = sectionOrRows.get(position);
         TransactionItem transactionItem = row.getRow();
@@ -167,5 +182,9 @@ public class TransactionItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public static String theMonth(int month) {
         String[] monthNames = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
         return monthNames[month];
+    }
+
+    public interface OnListItemClickListener {
+        void onListItemClick(SectionOrRow clickedRow);
     }
 }

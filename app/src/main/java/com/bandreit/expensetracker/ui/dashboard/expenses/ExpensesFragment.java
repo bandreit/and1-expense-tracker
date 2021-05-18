@@ -84,6 +84,7 @@ public class ExpensesFragment extends Fragment implements YearExpenseHistoryAdap
         mViewModel.init();
 
         progressBar = root.findViewById(R.id.transacionProgressBar);
+        isLoading.setValue(true);
         TextView noItemsText = root.findViewById(R.id.no_items_text);
         categoriesRecyclerView = root.findViewById(R.id.expense_history_recycle_view);
         categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -123,21 +124,17 @@ public class ExpensesFragment extends Fragment implements YearExpenseHistoryAdap
                     .filter(c -> c.getType().equals(TransactionType.EXPENSE))
                     .collect(Collectors.toList());
 
-            yearsArrayList = new ArrayList<>();
-            for (TransactionItem tItem : expenseItems
-            ) {
-                int yearToAdd = tItem.getDate().get(Calendar.YEAR);
-                if (!yearsArrayList.contains(yearToAdd))
-                    yearsArrayList.add(yearToAdd);
-                Collections.sort(yearsArrayList);
-                Collections.reverse(yearsArrayList);
-            }
-            yearExpenseHistoryAdapter.updateList(yearsArrayList);
+            updateYearsUpdateList(yearExpenseHistoryAdapter, expenseItems);
             filterAndLoadChartData(adapter, expenseItems, mViewModel.getSelectedYear().getValue());
         });
 
         mViewModel.selectedYear.observe(getViewLifecycleOwner(), selectedYear -> {
-            filterAndLoadChartData(adapter, mViewModel.getAllExpenseItems().getValue(), selectedYear);
+            List<TransactionItem> expenseItems = mViewModel.getAllExpenseItems().getValue().stream()
+                    .filter(c -> c.getType().equals(TransactionType.EXPENSE))
+                    .collect(Collectors.toList());
+
+            updateYearsUpdateList(yearExpenseHistoryAdapter, expenseItems);
+            filterAndLoadChartData(adapter, expenseItems, selectedYear);
         });
 
         barChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
@@ -163,6 +160,20 @@ public class ExpensesFragment extends Fragment implements YearExpenseHistoryAdap
         });
 
         return root;
+    }
+
+    private void updateYearsUpdateList(YearExpenseHistoryAdapter yearExpenseHistoryAdapter, List<TransactionItem> expenseItems) {
+        yearsArrayList = new ArrayList<>();
+        for (TransactionItem tItem : expenseItems
+        ) {
+            int yearToAdd = tItem.getDate().get(Calendar.YEAR);
+            if (!yearsArrayList.contains(yearToAdd))
+                yearsArrayList.add(yearToAdd);
+            Collections.sort(yearsArrayList);
+            Collections.reverse(yearsArrayList);
+        }
+        isLoading.setValue(false);
+        yearExpenseHistoryAdapter.updateList(yearsArrayList);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -243,10 +254,9 @@ public class ExpensesFragment extends Fragment implements YearExpenseHistoryAdap
     public void hideViews() {
         int heightToScroll = barChart.getHeight() + yearRecyclerView.getHeight();
 
-//        Fancy scroll on top of chart, not working properly.
-//        root.animate().translationY(-1 * heightToScroll).setInterpolator(new AccelerateInterpolator(2));
+        //Fancy scroll on top of chart, not working properly.
+        //root.animate().translationY(-1 * heightToScroll).setInterpolator(new AccelerateInterpolator(2));
     }
-
 
     public LiveData<Boolean> isLoading() {
         return isLoading;

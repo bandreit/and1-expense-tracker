@@ -6,6 +6,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import com.bandreit.expensetracker.MainActivity;
 import com.bandreit.expensetracker.R;
 import com.bandreit.expensetracker.model.transactions.TransactionAmount;
 import com.bandreit.expensetracker.model.transactions.TransactionType;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -41,8 +43,8 @@ public class AddItemStep2Fragment extends Fragment implements Validator.Validati
     private EditText editTextAmount;
     @NotEmpty
     private EditText editTextName;
-    private FloatingActionButton addExpense;
-    @Pattern(regex =  "(\\d+\\/?\\d?+)")
+    private MaterialButton addExpense;
+    @Pattern(regex = "(\\d+\\/?\\d?+)")
     private DatePickerDialog picker;
     @NotEmpty
     private EditText eText;
@@ -72,7 +74,7 @@ public class AddItemStep2Fragment extends Fragment implements Validator.Validati
         expenseTypeButton = (ImageView) root.findViewById(R.id.expenseTypeExpense);
         incomeTypeButton = (ImageView) root.findViewById(R.id.expenseTypeIncome);
 
-        addExpense = (FloatingActionButton) root.findViewById(R.id.add_expense);
+        addExpense = (MaterialButton) root.findViewById(R.id.add_expense);
 
         int expenseButtonHeight = expenseTypeButton.getLayoutParams().height;
         int expenseButtonWidth = expenseTypeButton.getLayoutParams().width;

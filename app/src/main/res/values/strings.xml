@@ -22,4 +22,17 @@
     <string name="dashboard">Dashboard</string>
     <string name="no_transactions">There haven\'t been any transactions logged yet</string>
     <string name="categorised_transactions">Categorised transactions</string>
+    <string name="hub">Hub</string>
+    <string name="puzzles">puzzles</string>
+    <string name="danish_tax_system_breakdown_su_calculations_depending_on_tax_card">Danish Tax System breakdown + Salary/SU calculations</string>
+    <string name="keep_track_of_your_savings_progress">Keep track of your savings progress</string>
+    <string name="next_step">Next step</string>
+    <string name="add_expense">Add Expense</string>
+    <string name="taxes_breakdown">Taxes Breakdown</string>
+    <string name="savings_tracker">Savings tracker</string>
+    <string name="dollar">dollar</string>
+    <string name="_5000">5000</string>
+    <string name="_6321">6321</string>
+    <string name="_0">0</string>
+    <string name="recent_transactions">Recent Transactions</string>
 </resources>

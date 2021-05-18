@@ -1,5 +1,8 @@
 package com.bandreit.expensetracker.model.transactions;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
@@ -26,6 +29,7 @@ public class TransactionItemRepository {
         transactionItemDao.addExpenseItem(transactionItem);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void deleteExpense(String id) {
         transactionItemDao.deleteExpense(id);
     }

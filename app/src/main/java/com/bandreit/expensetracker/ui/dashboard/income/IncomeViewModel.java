@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.bandreit.expensetracker.model.categories.Category;
 import com.bandreit.expensetracker.model.expenseHistory.ExpenseHistory;
@@ -15,6 +16,8 @@ import com.bandreit.expensetracker.model.users.UserRepository;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +25,13 @@ import java.util.Map;
 public class IncomeViewModel extends AndroidViewModel {
     private final TransactionItemRepository transactionItemRepository;
     private final UserRepository userRepository;
+    public MutableLiveData<Integer> selectedYear;
 
     public IncomeViewModel(Application app) {
         super(app);
         this.transactionItemRepository = TransactionItemRepository.getInstance();
         this.userRepository = UserRepository.getInstance(app);
+        selectedYear = new MutableLiveData<>();
     }
 
     public void init() {
@@ -38,15 +43,23 @@ public class IncomeViewModel extends AndroidViewModel {
         return transactionItemRepository.getAllExpenseItem();
     }
 
-    public ArrayList<ExpenseHistory> filterExpenseItemsByCategory(List<TransactionItem> transactionItems) {
+    public MutableLiveData<Integer> getSelectedYear() {
+        return selectedYear;
+    }
+
+    public void setSelectedYear(Integer year) {
+        selectedYear.setValue(year);
+    }
+
+    public ArrayList<ExpenseHistory> filterTransactionItemsByCategoryAndDate(List<TransactionItem> transactionItems) {
         ArrayList<ExpenseHistory> expenseHistoryArrayList = new ArrayList<>();
 
         // Map of Expense Items by Category
-        Map<Category, List<TransactionItem>> categorisedExpenseItemsMap = new HashMap<>();
+        Map<String, List<TransactionItem>> categorisedExpenseItemsMap = new HashMap<>();
 
         if (transactionItems != null) {
             for (TransactionItem eItem : transactionItems) {
-                Category key = eItem.getCategory();
+                String key = eItem.getCategory().getName();
                 if (categorisedExpenseItemsMap.containsKey(key)) {
                     List<TransactionItem> list = categorisedExpenseItemsMap.get(key);
                     list.add(eItem);
@@ -58,20 +71,14 @@ public class IncomeViewModel extends AndroidViewModel {
             }
         }
 
-        List<Category> categoriesToSortBy = new ArrayList<>(categorisedExpenseItemsMap.keySet());
+        List<String> categoriesToSortBy = new ArrayList<>(categorisedExpenseItemsMap.keySet());
 
-        for (Category category : categoriesToSortBy) {
+        for (String category : categoriesToSortBy) {
             List<TransactionItem> itemsByCategory = categorisedExpenseItemsMap.get(category);
             // Map of Expense Items By Date for each Category
             Map<Calendar, List<TransactionItem>> expenseItemsByDateMap = new HashMap<>();
             for (TransactionItem transactionItem : itemsByCategory) {
-                Calendar key = transactionItem.getDate();
-
-                key.set(Calendar.HOUR_OF_DAY, 0);
-                key.set(Calendar.MINUTE, 0);
-                key.set(Calendar.SECOND, 0);
-                key.set(Calendar.MILLISECOND, 0);
-                key.set(Calendar.DATE, 0);
+                Calendar key = new GregorianCalendar(transactionItem.getDate().get(Calendar.YEAR), transactionItem.getDate().get(Calendar.MONTH), 1);
 
                 if (expenseItemsByDateMap.containsKey(key)) {
                     List<TransactionItem> list = expenseItemsByDateMap.get(key);
@@ -84,19 +91,41 @@ public class IncomeViewModel extends AndroidViewModel {
             }
 
             List<Calendar> datesToSortBy = new ArrayList<>(expenseItemsByDateMap.keySet());
+            Collections.sort(datesToSortBy);
+            Collections.reverse(datesToSortBy);
 
             for (Calendar date : datesToSortBy) {
-                List<TransactionItem> itemsByDate = categorisedExpenseItemsMap.get(category);
+                List<TransactionItem> itemsByDate = expenseItemsByDateMap.get(date);
 
                 double sum = 0;
                 for (TransactionItem transactionItem : itemsByDate) {
                     sum += transactionItem.getAmount().getCurrencyAmount();
                 }
-                expenseHistoryArrayList.add(new ExpenseHistory(category, date, new TransactionAmount("DKK", sum), TransactionType.INCOME));
+                expenseHistoryArrayList.add(new ExpenseHistory(itemsByDate.get(0).getCategory(), date, new TransactionAmount("DKK", sum), TransactionType.EXPENSE));
             }
 
         }
 
         return expenseHistoryArrayList;
+    }
+
+
+    public Map<Integer, List<ExpenseHistory>> filterTransactionItemsByMonth(ArrayList<ExpenseHistory> expenseHistoryArrayList) {
+        Map<Integer, List<ExpenseHistory>> categorisedExpenseItemsMap = new HashMap<>();
+
+        if (expenseHistoryArrayList != null) {
+            for (ExpenseHistory eItem : expenseHistoryArrayList) {
+                int key = eItem.getDate().get(Calendar.MONTH);
+                if (categorisedExpenseItemsMap.containsKey(key)) {
+                    List<ExpenseHistory> list = categorisedExpenseItemsMap.get(key);
+                    list.add(eItem);
+                } else {
+                    List<ExpenseHistory> list = new ArrayList<>();
+                    list.add(eItem);
+                    categorisedExpenseItemsMap.put(key, list);
+                }
+            }
+        }
+        return categorisedExpenseItemsMap;
     }
 }

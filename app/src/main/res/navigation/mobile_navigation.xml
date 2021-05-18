@@ -9,7 +9,14 @@
         android:id="@+id/navigation_home"
         android:name="com.bandreit.expensetracker.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_extra_features"
+            app:destination="@id/navigation_extra_features" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -18,10 +25,17 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.bandreit.expensetracker.ui.notifications.NotificationsFragment"
+        android:id="@+id/navigation_extra_features"
+        android:name="com.bandreit.expensetracker.ui.hub.HubFeaturesFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_hub" >
+        <action
+            android:id="@+id/action_navigation_extra_features_to_savingsHubFragment"
+            app:destination="@id/savingsHubFragment" />
+        <action
+            android:id="@+id/action_navigation_extra_features_to_taxesHubFragment"
+            app:destination="@id/taxesHubFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/add_item_1"
@@ -54,4 +68,12 @@
         android:name="com.bandreit.expensetracker.ui.addItem.AddItemStep3Fragment"
         android:label="fragment_add_item3"
         tools:layout="@layout/fragment_add_item3" />
+    <fragment
+        android:id="@+id/savingsHubFragment"
+        android:name="com.bandreit.expensetracker.ui.hub.savingsbreakdown.SavingsHubFragment"
+        android:label="SavingsHubFragment" />
+    <fragment
+        android:id="@+id/taxesHubFragment"
+        android:name="com.bandreit.expensetracker.ui.hub.taxbreakdown.TaxesHubFragment"
+        android:label="TaxesHubFragment" />
 </navigation>

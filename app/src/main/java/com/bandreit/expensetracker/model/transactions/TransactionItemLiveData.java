@@ -16,6 +16,12 @@ import java.util.List;
 
 public class TransactionItemLiveData extends LiveData<List<TransactionItem>> {
     private final ArrayList<TransactionItem> localTransactionItems;
+    DatabaseReference databaseReference;
+
+    public TransactionItemLiveData(DatabaseReference ref) {
+        databaseReference = ref;
+        localTransactionItems = new ArrayList<>();
+    }
 
     private final ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
@@ -45,13 +51,6 @@ public class TransactionItemLiveData extends LiveData<List<TransactionItem>> {
         public void onCancelled(@NonNull DatabaseError error) {
         }
     };
-
-    DatabaseReference databaseReference;
-
-    public TransactionItemLiveData(DatabaseReference ref) {
-        databaseReference = ref;
-        localTransactionItems = new ArrayList<>();
-    }
 
     @Override
     protected void onActive() {
