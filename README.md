@@ -8,24 +8,22 @@ Getting your head around the Danish tax system is also difficult for the beginne
 
 ## Must have
 
-- [ ] User can create an account
-- [ ] User can add, edit and delete transactions into the app
-- [ ] User can split transactions into defined categories and create new ones
-- [ ] User can select a saving plan or can create a new one
-- [ ] User can see a dashboard of current and past transactions broken down in categories
-- [ ] User can input and get a rough estimation and breakdown of salary and SU taxes with info on Tax Cards and Exceptions
-- [ ] User can set goals for a specifc amount of money and see the progress
-- [ ] User can get a rough estimation of how much savings will there be in the account if following a specific plan
+- [x] User can create an account
+- [x] User can keep track of live balance
+- [x] User can see a list of all the recent transactions logged
+- [ ] User can add, edit and delete transactions with details (title, amount, date, etc.) into the app
+- [x] User can split transactions into defined categories and see them split by months/years
+- [x] User can see a dashboard of current and past transactions broken down in categories
+- [x] User can input and get a rough estimation and breakdown of salary and SU taxes with info on Tax Cards and Exceptions
 
 ## Should have
 - [ ] User can convert through currencies 
+- [ ] User can set goals for a specifc amount of money and see the progress
 - [ ] User can input the weight and cost of an item and get the quantity/price or price/quantity rate
-- [ ] User can keep track of monthly subscriptions 
 
 ## Could have
-- [ ] User can keep track of debt to other people and to him
-- [ ] User can import data from other banks that provide public API's or support for it
+- [ ] User can import data from other banks that provide public API's or support for it (haha what was I thinkin :DD)
 
 ## Will not have
 
-- [ ] User can manage actuall currencies and money inside the app
+- [x] User can manage actuall currencies and money inside the app
