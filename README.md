@@ -12,7 +12,7 @@ Getting your head around the Danish tax system is also difficult for the beginne
 - [ ] User can add, edit and delete transactions into the app
 - [x] User can split transactions into defined categories
 - [x] User can see a dashboard of current and past transactions broken down in categories
-- [ ] User can input and get a rough estimation and breakdown of salary and SU taxes with info on Tax Cards and Exceptions
+- [x] User can input and get a rough estimation and breakdown of salary and SU taxes with info on Tax Cards and Exceptions
 - [ ] User can set goals for a specifc amount of money and see the progress
 - [ ] User can select a saving plan or can create a new one
 - [ ] User can get a rough estimation of how much savings will there be in the account if following a specific plan
