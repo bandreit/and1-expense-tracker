@@ -38,4 +38,5 @@
     <string name="close">Close</string>
     <string name="upload_photo">Upload photo</string>
     <string name="edit_expense">EDIT EXPENSE</string>
+    <string name="currency_preferences">Currency preferences</string>
 </resources>

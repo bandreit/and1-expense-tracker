@@ -1,0 +1,17 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:icon="@drawable/dollar"
+        app:title="@string/currency_preferences">
+
+        <ListPreference
+            app:defaultValue="DKK"
+            app:entries="@array/preferred_currencies"
+            app:entryValues="@array/preferred_currencies"
+            app:key="preferred_currency"
+            app:title="Preferred currency"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

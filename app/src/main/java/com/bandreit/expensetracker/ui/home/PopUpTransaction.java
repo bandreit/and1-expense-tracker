@@ -57,11 +57,13 @@ public class PopUpTransaction {
         categoryImage.setBackgroundResource(selectedTransactionItem.getCategory().getImageId());
         categoryBackground.setBackgroundResource(selectedTransactionItem.getCategory().getBackgroundId());
 
-        Picasso.get()
-                .load(selectedTransactionItem.getImageUri())
-                .placeholder(R.drawable.loading)
-                .error(R.drawable.graph)
-                .into(image);
+        if (selectedTransactionItem.getImageUri() != null)
+            if (!selectedTransactionItem.getImageUri().equals(""))
+                Picasso.get()
+                        .load(selectedTransactionItem.getImageUri())
+                        .placeholder(R.drawable.loading)
+                        .error(R.drawable.graph)
+                        .into(image);
         Button buttonEdit = popupView.findViewById(R.id.closeButton);
 
         buttonEdit.setOnClickListener(new View.OnClickListener() {

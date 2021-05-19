@@ -53,7 +53,9 @@ public class TransactionItemDao {
         balanceRef.orderByChild("timestamp").limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Balance currentBalance = dataSnapshot.getChildren().iterator().next().getValue(Balance.class);
+                Balance currentBalance = null;
+                if (dataSnapshot.getValue() != null)
+                    currentBalance = dataSnapshot.getChildren().iterator().next().getValue(Balance.class);
                 double currentBalanceAmount = 0;
                 if (currentBalance == null) {
                     balanceRef.push().setValue(new Balance(new TransactionAmount("DKK", 0), Calendar.getInstance().getTimeInMillis()));

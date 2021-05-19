@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.navigation.Navigation;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bandreit.expensetracker.R;
@@ -21,6 +22,7 @@ import com.bandreit.expensetracker.ui.edit.editItem.EditItemViewModel;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Currency;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +60,7 @@ public class TransactionItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             h.title.setText(transactionItem.getTitle());
             Formatter formatter = new Formatter();
             formatter.format("%.2f", transactionItem.getAmount().getCurrencyAmount());
-            h.amount.setText(getTypeOfExpense(transactionItem.getType()) + transactionItem.getAmount().getCurrency().getSymbol() + formatter.toString());
+            h.amount.setText(getTypeOfExpense(transactionItem.getType()) + formatter.toString() + Currency.getInstance(PreferenceManager.getDefaultSharedPreferences(view.getContext()).getString("preferred_currency", "DKK")).getSymbol());
             h.category.setText(transactionItem.getCategory().getName());
             h.categoryImage.setImageResource(transactionItem.getCategory().getImageId());
             String date = transactionItem.getDate().get(Calendar.DATE) + " " + theMonth(transactionItem.getDate().get(Calendar.MONTH));

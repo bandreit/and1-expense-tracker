@@ -20,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.preference.PreferenceManager;
 
 import com.bandreit.expensetracker.MainActivity;
 import com.bandreit.expensetracker.R;
@@ -84,6 +85,9 @@ public class EditItemStep2Fragment extends Fragment implements Validator.Validat
 
         TextView textView = ((MainActivity) getActivity()).findViewById(R.id.fragment_title);
         textView.setText(R.string.enter_details);
+
+        TextView currency = root.findViewById(R.id.currency);
+        currency.setText(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("preferred_currency", "DKK"));
 
         editTextAmount = root.findViewById(R.id.editTextNumberDecimal);
         editTextName = root.findViewById(R.id.expense_item_name);

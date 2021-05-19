@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.preference.PreferenceManager;
 
 import com.bandreit.expensetracker.MainActivity;
 import com.bandreit.expensetracker.R;
@@ -84,6 +85,9 @@ public class AddItemStep2Fragment extends Fragment implements Validator.Validati
 
         TextView textView = ((MainActivity) getActivity()).findViewById(R.id.fragment_title);
         textView.setText(R.string.enter_details);
+
+        TextView currency = root.findViewById(R.id.currency);
+        currency.setText(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("preferred_currency", "DKK"));
 
         editTextAmount = root.findViewById(R.id.editTextNumberDecimal);
         editTextName = root.findViewById(R.id.expense_item_name);
@@ -196,7 +200,7 @@ public class AddItemStep2Fragment extends Fragment implements Validator.Validati
     @Override
     public void onValidationSucceeded() {
         Toast.makeText(getContext(), "Expense registered!", Toast.LENGTH_SHORT).show();
-        transactionAmount = new TransactionAmount("DKK", Double.parseDouble(String.valueOf(editTextAmount.getText())));
+        transactionAmount = new TransactionAmount(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("preferred_currency", "DKK"), Double.parseDouble(String.valueOf(editTextAmount.getText())));
         expenseTitle = String.valueOf(editTextName.getText());
         addItemViewModel.selectExpenseType(transactionType);
         addItemViewModel.selectAmount(transactionAmount);

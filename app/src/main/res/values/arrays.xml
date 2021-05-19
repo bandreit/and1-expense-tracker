@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="preferred_currencies">
+        <item>DKK</item>
+        <item>USD</item>
+        <item>EUR</item>
+    </string-array>
+
+</resources>

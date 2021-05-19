@@ -12,13 +12,18 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_navigation_home_to_navigation_extra_features"
-            app:destination="@id/navigation_extra_features" />
+            app:destination="@id/navigation_extra_features"
+            app:enterAnim="@anim/fui_slide_in_right"
+            app:exitAnim="@anim/fui_slide_out_left" />
         <action
             android:id="@+id/action_navigation_home_to_navigation_dashboard"
             app:destination="@id/navigation_dashboard" />
         <action
             android:id="@+id/action_navigation_home_to_editItemStep1Fragment"
             app:destination="@id/editItemStep1Fragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 
     <fragment
@@ -90,4 +95,25 @@
             android:id="@+id/action_editItemStep2Fragment_to_editItemStep1Fragment"
             app:destination="@id/editItemStep1Fragment" />
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.bandreit.expensetracker.ui.profile.ProfileFragment"
+        android:label="profile_fragment"
+        tools:layout="@layout/profile_fragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_signInActivity"
+            app:destination="@id/signInActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.bandreit.expensetracker.ui.profile.SettingsFragment"
+        android:label="SettingsFragment" />
+    <activity
+        android:id="@+id/signInActivity"
+        android:name="com.bandreit.expensetracker.ui.signIn.SignInActivity"
+        android:label="signin_activity"
+        tools:layout="@layout/signin_activity" />
 </navigation>

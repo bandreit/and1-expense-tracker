@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,6 +67,9 @@ public class HomeFragment extends Fragment implements TransactionItemAdapter.OnL
         TextView noItemsText = root.findViewById(R.id.no_items_text);
         TextView currentBalance = root.findViewById(R.id.current_balance);
         textView.setText("Overview");
+        TextView currency = root.findViewById(R.id.balance_currency);
+        currency.setText(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("preferred_currency", "DKK"));
+
 
         initializeChart();
         RecyclerView recyclerView = root.findViewById(R.id.expense_items_recycle_view);
@@ -89,7 +93,8 @@ public class HomeFragment extends Fragment implements TransactionItemAdapter.OnL
         });
 
         homeViewModel.getBalanceHistory().observe(getViewLifecycleOwner(), balances -> {
-            currentBalance.setText(String.valueOf(balances.get(balances.size() - 1).getTransactionAmount().getCurrencyAmount()));
+            if (balances.size() != 0)
+                currentBalance.setText(String.valueOf(balances.get(balances.size() - 1).getTransactionAmount().getCurrencyAmount()));
             loadBalanceChart(balances);
         });
 
