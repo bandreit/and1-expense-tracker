@@ -112,4 +112,41 @@ public class TransactionItemDao {
             }
         });
     }
+
+    public void editExpenseItem(TransactionItem editingExpenseItem, TransactionAmount currentAmount) {
+        DatabaseReference transactionItemToEdit = expenseItemsRef.child(editingExpenseItem.getId());
+
+        transactionItemToEdit.child("amount").setValue(editingExpenseItem.getAmount());
+        transactionItemToEdit.child("category").setValue(editingExpenseItem.getCategory());
+        transactionItemToEdit.child("imageUri").setValue(editingExpenseItem.getImageUri());
+        transactionItemToEdit.child("timestamp").setValue(editingExpenseItem.getTimestamp());
+        transactionItemToEdit.child("title").setValue(editingExpenseItem.getTitle());
+        transactionItemToEdit.child("type").setValue(editingExpenseItem.getType());
+
+        balanceRef.orderByChild("timestamp").limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Balance currentBalance = dataSnapshot.getChildren().iterator().next().getValue(Balance.class);
+                double currentBalanceAmount = 0;
+                if (currentBalance == null) {
+                    balanceRef.push().setValue(new Balance(new TransactionAmount("DKK", 0), Calendar.getInstance().getTimeInMillis()));
+                } else {
+                    currentBalanceAmount = currentBalance.getTransactionAmount().getCurrencyAmount();
+                }
+
+                int sign = editingExpenseItem.getType() == TransactionType.EXPENSE ? -1 : 1;
+                double newBalanceAmountWithoutEdit = currentBalanceAmount + sign * currentAmount.getCurrencyAmount();
+                double newBalanceAmountAfterEdit = newBalanceAmountWithoutEdit + -1 * sign * editingExpenseItem.getAmount().getCurrencyAmount();
+
+                Balance newBalance = new Balance(new TransactionAmount("DKK", newBalanceAmountAfterEdit), Calendar.getInstance().getTimeInMillis());
+                balanceRef.push().setValue(newBalance);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.i("Error:", "Error retrieving data");
+            }
+        });
+
+    }
 }

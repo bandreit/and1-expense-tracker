@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_dashboard"
             app:destination="@id/navigation_dashboard" />
+        <action
+            android:id="@+id/action_navigation_home_to_editItemStep1Fragment"
+            app:destination="@id/editItemStep1Fragment" />
     </fragment>
 
     <fragment
@@ -57,17 +60,9 @@
         android:label="fragment_add_item"
         tools:layout="@layout/fragment_add_item2" >
         <action
-            android:id="@+id/action_add_item_2_to_addItemStep3Fragment"
-            app:destination="@id/add_item_3" />
-        <action
             android:id="@+id/action_add_item_2_to_navigation_home"
             app:destination="@id/navigation_home" />
     </fragment>
-    <fragment
-        android:id="@+id/add_item_3"
-        android:name="com.bandreit.expensetracker.ui.addItem.AddItemStep3Fragment"
-        android:label="fragment_add_item3"
-        tools:layout="@layout/fragment_add_item3" />
     <fragment
         android:id="@+id/savingsHubFragment"
         android:name="com.bandreit.expensetracker.ui.hub.savingsbreakdown.SavingsHubFragment"
@@ -76,4 +71,23 @@
         android:id="@+id/taxesHubFragment"
         android:name="com.bandreit.expensetracker.ui.hub.taxbreakdown.TaxesHubFragment"
         android:label="TaxesHubFragment" />
+    <fragment
+        android:id="@+id/editItemStep1Fragment"
+        android:name="com.bandreit.expensetracker.ui.edit.editItem.EditItemStep1Fragment"
+        android:label="EditItemStep1Fragment" >
+        <action
+            android:id="@+id/action_editItemStep1Fragment_to_editItemStep2Fragment"
+            app:destination="@id/editItemStep2Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editItemStep2Fragment"
+        android:name="com.bandreit.expensetracker.ui.edit.editItem.EditItemStep2Fragment"
+        android:label="EditItemStep2Fragment" >
+        <action
+            android:id="@+id/action_editItemStep2Fragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_editItemStep2Fragment_to_editItemStep1Fragment"
+            app:destination="@id/editItemStep1Fragment" />
+    </fragment>
 </navigation>

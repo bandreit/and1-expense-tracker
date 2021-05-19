@@ -173,6 +173,7 @@ public class HomeFragment extends Fragment implements TransactionItemAdapter.OnL
 
             // set data
             chart.setData(data);
+            chart.invalidate();
         }
     }
 
@@ -180,10 +181,10 @@ public class HomeFragment extends Fragment implements TransactionItemAdapter.OnL
         return isLoading;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onListItemClick(SectionOrRow clickedRow) {
-        System.out.println("clicked");
-        PopUpTransaction popUpClass = new PopUpTransaction();
+        PopUpTransaction popUpClass = new PopUpTransaction(clickedRow);
         popUpClass.showPopupWindow(root);
     }
 }

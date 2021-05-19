@@ -1,12 +1,11 @@
-package com.bandreit.expensetracker.ui.addItem;
+package com.bandreit.expensetracker.ui.edit.editItem;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.icu.util.CurrencyAmount;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,15 +24,12 @@ import androidx.navigation.Navigation;
 import com.bandreit.expensetracker.MainActivity;
 import com.bandreit.expensetracker.R;
 import com.bandreit.expensetracker.model.transactions.TransactionAmount;
+import com.bandreit.expensetracker.model.transactions.TransactionItem;
 import com.bandreit.expensetracker.model.transactions.TransactionType;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -41,16 +37,15 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Pattern;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 
-public class AddItemStep2Fragment extends Fragment implements Validator.ValidationListener {
+public class EditItemStep2Fragment extends Fragment implements Validator.ValidationListener {
 
-    private AddItemViewModel addItemViewModel;
+    private EditItemViewModel editItemViewModel;
     private TransactionType transactionType;
     private TransactionAmount transactionAmount;
     private String expenseTitle;
@@ -67,16 +62,21 @@ public class AddItemStep2Fragment extends Fragment implements Validator.Validati
     private EditText eText;
     private Validator validator;
     private Button addImageButton;
-    private int selectedDay;
-    private int selectedMonth;
-    private int selectedYear;
+    private int selectedDay = -1;
+    private int selectedMonth = -1;
+    private int selectedYear = -1;
     private Uri filePath;
     private Uri downloadUri;
+    private TransactionAmount currentAmount;
+    int expenseButtonHeight;
+    int expenseButtonWidth;
+    int incomeButtonHeight;
+    int incomeButtonWidth;
     private final int PICK_IMAGE_REQUEST = 71;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        addItemViewModel = AddItemViewModel.getInstance();
+        editItemViewModel = EditItemViewModel.getInstance();
         validator = new Validator(this);
         validator.setValidationListener(this);
 
@@ -93,35 +93,24 @@ public class AddItemStep2Fragment extends Fragment implements Validator.Validati
         addImageButton = root.findViewById(R.id.upload_photo);
 
         addExpense = root.findViewById(R.id.add_expense);
+        addExpense.setText(R.string.edit_expense);
 
-        int expenseButtonHeight = expenseTypeButton.getLayoutParams().height;
-        int expenseButtonWidth = expenseTypeButton.getLayoutParams().width;
-        int incomeButtonHeight = incomeTypeButton.getLayoutParams().height;
-        int incomeButtonWidth = incomeTypeButton.getLayoutParams().width;
+        expenseButtonHeight = expenseTypeButton.getLayoutParams().height;
+        expenseButtonWidth = expenseTypeButton.getLayoutParams().width;
+        incomeButtonHeight = incomeTypeButton.getLayoutParams().height;
+        incomeButtonWidth = incomeTypeButton.getLayoutParams().width;
 
-        transactionType = TransactionType.EXPENSE;
+        editItemViewModel.getCurrentExpenseItem().observe(getViewLifecycleOwner(), this::setFields);
 
         expenseTypeButton.setOnClickListener(v -> {
-            transactionType = TransactionType.EXPENSE;
-            expenseTypeButton.getLayoutParams().width = (int) (expenseButtonWidth * 1.3);
-            expenseTypeButton.getLayoutParams().height = (int) (expenseButtonHeight * 1.3);
-
-            incomeTypeButton.getLayoutParams().width = (int) (incomeButtonWidth * 0.7);
-            incomeTypeButton.getLayoutParams().height = (int) (incomeButtonHeight * 0.7);
-            expenseTypeButton.requestLayout();
+            setExpenseType();
         });
 
         incomeTypeButton.setOnClickListener(v -> {
-            transactionType = TransactionType.INCOME;
-            incomeTypeButton.getLayoutParams().width = (int) (expenseButtonWidth * 1.3);
-            incomeTypeButton.getLayoutParams().height = (int) (expenseButtonHeight * 1.3);
-
-            expenseTypeButton.getLayoutParams().width = (int) (incomeButtonWidth * 0.7);
-            expenseTypeButton.getLayoutParams().height = (int) (incomeButtonHeight * 0.7);
-            expenseTypeButton.requestLayout();
+            setIncomeType();
         });
 
-        eText = (EditText) root.findViewById(R.id.date_selector);
+        eText = root.findViewById(R.id.date_selector);
         eText.setInputType(InputType.TYPE_NULL);
         eText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,8 +148,45 @@ public class AddItemStep2Fragment extends Fragment implements Validator.Validati
         return root;
     }
 
+    private void setIncomeType() {
+        transactionType = TransactionType.INCOME;
+        incomeTypeButton.getLayoutParams().width = (int) (expenseButtonWidth * 1.3);
+        incomeTypeButton.getLayoutParams().height = (int) (expenseButtonHeight * 1.3);
+
+        expenseTypeButton.getLayoutParams().width = (int) (incomeButtonWidth * 0.7);
+        expenseTypeButton.getLayoutParams().height = (int) (incomeButtonHeight * 0.7);
+        expenseTypeButton.requestLayout();
+    }
+
+    private void setExpenseType() {
+        transactionType = TransactionType.EXPENSE;
+        expenseTypeButton.getLayoutParams().width = (int) (expenseButtonWidth * 1.3);
+        expenseTypeButton.getLayoutParams().height = (int) (expenseButtonHeight * 1.3);
+
+        incomeTypeButton.getLayoutParams().width = (int) (incomeButtonWidth * 0.7);
+        incomeTypeButton.getLayoutParams().height = (int) (incomeButtonHeight * 0.7);
+        expenseTypeButton.requestLayout();
+    }
+
+    private void setFields(TransactionItem currentExpenseItem) {
+        if (currentExpenseItem.getType() == TransactionType.EXPENSE) setExpenseType();
+        else setIncomeType();
+        editTextName.setText(currentExpenseItem.getTitle());
+        if (currentAmount == null)
+            currentAmount = currentExpenseItem.getAmount();
+        editTextAmount.setText(String.valueOf(currentExpenseItem.getAmount().getCurrencyAmount()));
+        if (selectedMonth == -1 && selectedYear == -1 && selectedDay == -1) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(currentExpenseItem.getTimestamp());
+            selectedYear = calendar.get(Calendar.YEAR);
+            selectedMonth = calendar.get(Calendar.MONTH);
+            selectedDay = calendar.get(Calendar.DATE);
+            eText.setText(selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear);
+        }
+    }
+
     private void uploadImage() {
-        StorageReference storageReference = addItemViewModel.getStorageReference();
+        StorageReference storageReference = editItemViewModel.getStorageReference();
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(getContext());
             progressDialog.setTitle("Uploading...");
@@ -195,15 +221,15 @@ public class AddItemStep2Fragment extends Fragment implements Validator.Validati
 
     @Override
     public void onValidationSucceeded() {
-        Toast.makeText(getContext(), "Expense registered!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Expense edited!", Toast.LENGTH_SHORT).show();
         transactionAmount = new TransactionAmount("DKK", Double.parseDouble(String.valueOf(editTextAmount.getText())));
         expenseTitle = String.valueOf(editTextName.getText());
-        addItemViewModel.selectExpenseType(transactionType);
-        addItemViewModel.selectAmount(transactionAmount);
-        addItemViewModel.selectTitle(expenseTitle);
-        addItemViewModel.selectDate(selectedDay, selectedMonth, selectedYear);
-        addItemViewModel.setDownloadUri(downloadUri);
-        addItemViewModel.addItem();
+        editItemViewModel.selectExpenseType(transactionType);
+        editItemViewModel.selectAmount(transactionAmount);
+        editItemViewModel.selectTitle(expenseTitle);
+        editItemViewModel.selectDate(selectedDay, selectedMonth, selectedYear);
+        editItemViewModel.setDownloadUri(downloadUri);
+        editItemViewModel.editItem(currentAmount);
         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.navigation_home);
     }
 

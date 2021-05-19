@@ -21,6 +21,12 @@ public class TransactionItemRepository {
         transactionItemDao = TransactionItemDao.getInstance();
     }
 
+    public void init(String userId) {
+        transactionItemDao.init(userId);
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+    }
+
     public static synchronized TransactionItemRepository getInstance() {
         if (instance == null)
             instance = new TransactionItemRepository();
@@ -40,10 +46,8 @@ public class TransactionItemRepository {
         transactionItemDao.deleteExpense(id);
     }
 
-    public void init(String userId) {
-        transactionItemDao.init(userId);
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
+    public void editExpenseItem(TransactionItem value, TransactionAmount currentAmount) {
+        transactionItemDao.editExpenseItem(value, currentAmount);
     }
 
     public StorageReference getStorageReference() {

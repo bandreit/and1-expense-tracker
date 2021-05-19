@@ -1,4 +1,4 @@
-package com.bandreit.expensetracker.ui.addItem;
+package com.bandreit.expensetracker.ui.edit.editItem;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,13 +17,13 @@ import com.bandreit.expensetracker.R;
 import com.bandreit.expensetracker.model.categories.Category;
 import com.bandreit.expensetracker.model.categories.CategoryAdapter;
 
-public class AddItemStep1Fragment extends Fragment implements CategoryAdapter.OnListItemClickListener {
+public class EditItemStep1Fragment extends Fragment implements CategoryAdapter.OnListItemClickListener {
 
-    private AddItemViewModel addItemViewModel;
+    private EditItemViewModel editItemViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        addItemViewModel = AddItemViewModel.getInstance();
+        editItemViewModel = EditItemViewModel.getInstance();
 
         View root = inflater.inflate(R.layout.fragment_add_item1, container, false);
 
@@ -36,13 +35,13 @@ public class AddItemStep1Fragment extends Fragment implements CategoryAdapter.On
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.setAdapter(adapter);
 
-        addItemViewModel.getCategories().observe(getViewLifecycleOwner(), adapter::updateList);
+        editItemViewModel.getCategories().observe(getViewLifecycleOwner(), adapter::updateList);
         return root;
     }
 
     @Override
     public void onListItemClick(Category clickedCategory) {
-        addItemViewModel.selectCategory(clickedCategory);
-        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.add_item_2);
+        editItemViewModel.selectCategory(clickedCategory);
+        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.editItemStep2Fragment);
     }
 }

@@ -1,5 +1,6 @@
 package com.bandreit.expensetracker.model.transactions;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -11,10 +12,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bandreit.expensetracker.R;
-import com.bandreit.expensetracker.model.expenseHistory.YearExpenseHistoryAdapter;
+import com.bandreit.expensetracker.ui.edit.editItem.EditItemViewModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -166,6 +168,13 @@ public class TransactionItemAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         TransactionItemRepository.getInstance().deleteExpense(transactionItem.getId());
         sectionOrRows.remove(row);
         notifyItemRemoved(position);
+    }
+
+    public void editItem(int position) {
+        TransactionItem transactionItem = sectionOrRows.get(position).getRow();
+        EditItemViewModel.getInstance().editLocalExpenseItem(transactionItem);
+        Navigation.findNavController((Activity) view.getContext(), R.id.nav_host_fragment).navigate(R.id.editItemStep1Fragment);
+        notifyItemChanged(position);
     }
 
     @Override

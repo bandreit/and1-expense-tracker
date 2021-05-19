@@ -1,13 +1,11 @@
-package com.bandreit.expensetracker.ui.addItem;
+package com.bandreit.expensetracker.ui.edit.editItem;
 
 import android.net.Uri;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.navigation.Navigation;
 
-import com.bandreit.expensetracker.R;
 import com.bandreit.expensetracker.model.categories.Category;
 import com.bandreit.expensetracker.model.categories.CategoryRepository;
 import com.bandreit.expensetracker.model.transactions.TransactionAmount;
@@ -20,36 +18,34 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class AddItemViewModel extends ViewModel {
+public class EditItemViewModel extends ViewModel {
 
     private final CategoryRepository categoryRepository;
     private TransactionItemRepository transactionItemRepository;
-    private final TransactionItem localTransactionItem;
-    private final MutableLiveData<TransactionItem> expenseItemToAdd;
-    private static AddItemViewModel instance;
+    private TransactionItem localTransactionItem;
+    private MutableLiveData<TransactionItem> expenseItemToAdd;
+    private static EditItemViewModel instance;
 
-    public static synchronized AddItemViewModel getInstance() {
+    public static synchronized EditItemViewModel getInstance() {
         if (instance == null)
-            instance = new AddItemViewModel();
+            instance = new EditItemViewModel();
         return instance;
     }
 
-    private AddItemViewModel() {
+    private EditItemViewModel() {
         categoryRepository = new CategoryRepository();
         transactionItemRepository = TransactionItemRepository.getInstance();
         localTransactionItem = new TransactionItem();
         expenseItemToAdd = new MutableLiveData<>();
     }
 
-    public void addItem() {
-        transactionItemRepository.addExpenseItem(expenseItemToAdd.getValue());
-    }
-
     public LiveData<TransactionItem> getCurrentExpenseItem() {
         return expenseItemToAdd;
     }
 
+
     public void selectCategory(Category clickedCategory) {
+        localTransactionItem = expenseItemToAdd.getValue();
         localTransactionItem.setCategory(clickedCategory);
         expenseItemToAdd.setValue(localTransactionItem);
     }
@@ -89,6 +85,14 @@ public class AddItemViewModel extends ViewModel {
 
     public StorageReference getStorageReference() {
         return transactionItemRepository.getStorageReference();
+    }
+
+    public void editLocalExpenseItem(TransactionItem transactionItem) {
+        expenseItemToAdd.setValue(transactionItem);
+    }
+
+    public void editItem(TransactionAmount currentAmount) {
+        transactionItemRepository.editExpenseItem(expenseItemToAdd.getValue(), currentAmount);
     }
 
 }
