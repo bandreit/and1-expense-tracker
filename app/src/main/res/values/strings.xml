@@ -27,7 +27,7 @@
     <string name="danish_tax_system_breakdown_su_calculations_depending_on_tax_card">Danish Tax System breakdown + Salary/SU calculations</string>
     <string name="keep_track_of_your_savings_progress">Keep track of your savings progress</string>
     <string name="next_step">Next step</string>
-    <string name="add_expense">Add Expense</string>
+    <string name="add_expense">Add Transaction</string>
     <string name="taxes_breakdown">Taxes Breakdown</string>
     <string name="savings_tracker">Savings tracker</string>
     <string name="dollar">dollar</string>
@@ -39,4 +39,5 @@
     <string name="upload_photo">Upload photo</string>
     <string name="edit_expense">EDIT EXPENSE</string>
     <string name="currency_preferences">Currency preferences</string>
+    <string name="edit_transaction">Edit transaction</string>
 </resources>

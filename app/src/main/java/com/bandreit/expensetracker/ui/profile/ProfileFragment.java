@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bandreit.expensetracker.MainActivity;
 import com.bandreit.expensetracker.R;
 import com.bandreit.expensetracker.ui.signIn.SignInActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,7 +40,8 @@ public class ProfileFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         View root = inflater.inflate(R.layout.profile_fragment, container, false);
-
+        TextView textView = ((MainActivity) getActivity()).findViewById(R.id.fragment_title);
+        textView.setText("Account");
         FloatingActionButton floatingActionButtonSettings = root.findViewById(R.id.settings_FAB);
         FloatingActionButton floatingActionButtonLogOut = root.findViewById(R.id.signOut_FAV);
 

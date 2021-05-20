@@ -101,7 +101,7 @@ public class IncomeViewModel extends AndroidViewModel {
                 for (TransactionItem transactionItem : itemsByDate) {
                     sum += transactionItem.getAmount().getCurrencyAmount();
                 }
-                expenseHistoryArrayList.add(new ExpenseHistory(itemsByDate.get(0).getCategory(), date, new TransactionAmount("DKK", sum), TransactionType.EXPENSE));
+                expenseHistoryArrayList.add(new ExpenseHistory(itemsByDate.get(0).getCategory(), date, new TransactionAmount("DKK", sum), TransactionType.INCOME));
             }
 
         }

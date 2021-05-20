@@ -408,7 +408,7 @@
                             android:layout_height="50dp"
                             android:fontFamily="@font/quicksand_bold"
                             android:gravity="center"
-                            android:text="Approx. income, depending on what's on tax card A "
+                            android:text="Unofficial approx. income, depending on card A"
                             android:textAppearance="@android:style/TextAppearance.Material.Headline"
                             android:textSize="18sp"
                             android:textStyle="bold" />

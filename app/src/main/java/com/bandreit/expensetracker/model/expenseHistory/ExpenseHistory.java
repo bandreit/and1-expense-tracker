@@ -26,18 +26,6 @@ public class ExpenseHistory {
     public ExpenseHistory() {
     }
 
-    public static ArrayList<ExpenseHistory> fromExpenseItemsToExpenseHistoryList(List<TransactionItem> transactionItems) {
-        ArrayList<ExpenseHistory> expenseHistoryArrayList = new ArrayList<>();
-        for (TransactionItem transactionItem : transactionItems) {
-            expenseHistoryArrayList.add(new ExpenseHistory(transactionItem.getCategory(), transactionItem.getDate(), transactionItem.getAmount(), transactionItem.getType()));
-        }
-        return expenseHistoryArrayList;
-    }
-
-    public static ExpenseHistory fromExpenseItemToExpenseHistory(TransactionItem transactionItem) {
-        return new ExpenseHistory(transactionItem.getCategory(), transactionItem.getDate(), transactionItem.getAmount(), transactionItem.getType());
-    }
-
     public String getId() {
         return id;
     }

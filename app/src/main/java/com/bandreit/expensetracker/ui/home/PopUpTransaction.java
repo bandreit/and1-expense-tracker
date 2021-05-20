@@ -93,7 +93,7 @@ public class PopUpTransaction {
             DecimalFormat df2 = new DecimalFormat("#.##");
 
             if (selectedTransactionItem.getAmount().getCurrencyKey().equals("USD"))
-                amount.setText(df2.format(selectedTransactionItem.getAmount().getCurrencyAmount() * rates) + " " + "DKK" + "⦾");
+                amount.setText(df2.format(selectedTransactionItem.getAmount().getCurrencyAmount() * rates) + " " + "DKK");
         });
     }
 }

@@ -63,10 +63,10 @@ public class HomeFragment extends Fragment implements TransactionItemAdapter.OnL
         isLoading.setValue(true);
 
         TextView textView = ((MainActivity) getActivity()).findViewById(R.id.fragment_title);
+        textView.setText("Overview");
         progressBar = root.findViewById(R.id.transacionProgressBar);
         TextView noItemsText = root.findViewById(R.id.no_items_text);
         TextView currentBalance = root.findViewById(R.id.current_balance);
-        textView.setText("Overview");
         TextView currency = root.findViewById(R.id.balance_currency);
         currency.setText(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("preferred_currency", "DKK"));
 
