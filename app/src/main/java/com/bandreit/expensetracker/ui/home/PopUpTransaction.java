@@ -13,21 +13,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.bandreit.expensetracker.R;
 import com.bandreit.expensetracker.model.transactions.SectionOrRow;
 import com.bandreit.expensetracker.model.transactions.TransactionItem;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class PopUpTransaction {
     private TransactionItem selectedTransactionItem;
+    private HomeViewModel homeViewModel;
+    private LifecycleOwner viewLifecycleOwner;
 
-    public PopUpTransaction(SectionOrRow clickedRow) {
+    public PopUpTransaction(SectionOrRow clickedRow, HomeViewModel homeViewModel, LifecycleOwner viewLifecycleOwner) {
         selectedTransactionItem = clickedRow.getRow();
+        this.homeViewModel = homeViewModel;
+        this.viewLifecycleOwner = viewLifecycleOwner;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -53,7 +59,10 @@ public class PopUpTransaction {
         date.setText(sdf.format(selectedTransactionItem.getDate().getTime()));
         category.setText(selectedTransactionItem.getCategory().getName());
         title.setText(selectedTransactionItem.getTitle());
-        amount.setText(String.valueOf(selectedTransactionItem.getAmount().getCurrencyAmount()));
+        String amountToDisplay = selectedTransactionItem.getAmount().getCurrencyAmount() + " " + selectedTransactionItem.getAmount().getCurrencyKey();
+        if (selectedTransactionItem.getAmount().getCurrencyKey().equals("USD"))
+            amountToDisplay += "⦾";
+        amount.setText(amountToDisplay);
         categoryImage.setBackgroundResource(selectedTransactionItem.getCategory().getImageId());
         categoryBackground.setBackgroundResource(selectedTransactionItem.getCategory().getBackgroundId());
 
@@ -71,6 +80,20 @@ public class PopUpTransaction {
             public void onClick(View v) {
                 popupWindow.dismiss();
             }
+        });
+
+        amount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                homeViewModel.getExchangeRate();
+            }
+        });
+
+        homeViewModel.getExchangeValue().observe(viewLifecycleOwner, rates -> {
+            DecimalFormat df2 = new DecimalFormat("#.##");
+
+            if (selectedTransactionItem.getAmount().getCurrencyKey().equals("USD"))
+                amount.setText(df2.format(selectedTransactionItem.getAmount().getCurrencyAmount() * rates) + " " + "DKK" + "⦾");
         });
     }
 }

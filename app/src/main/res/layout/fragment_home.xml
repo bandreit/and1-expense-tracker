@@ -21,22 +21,20 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
             android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:orientation="horizontal">
+            android:paddingTop="10dp">
 
             <ImageView
                 android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="left"
-                android:layout_marginTop="10dp"
+                android:layout_height="match_parent"
                 android:contentDescription="@string/dollar"
                 android:src="@drawable/card" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:fontFamily="@font/quicksand_bold"
                 android:gravity="center"
                 android:paddingLeft="10dp"
@@ -48,7 +46,7 @@
             <TextView
                 android:id="@+id/current_balance"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="right"
                 android:fontFamily="@font/quicksand_bold"
                 android:gravity="center"
@@ -61,11 +59,11 @@
             <TextView
                 android:id="@+id/balance_currency"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:fontFamily="@font/quicksand_bold"
                 android:gravity="center"
                 android:paddingLeft="1dp"
-                android:text="dkk"
+                android:text="kr."
                 android:textAppearance="@android:style/TextAppearance.Material.Headline"
                 android:textSize="18sp"
                 android:textStyle="bold" />

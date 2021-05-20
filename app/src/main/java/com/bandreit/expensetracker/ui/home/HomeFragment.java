@@ -70,7 +70,6 @@ public class HomeFragment extends Fragment implements TransactionItemAdapter.OnL
         TextView currency = root.findViewById(R.id.balance_currency);
         currency.setText(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("preferred_currency", "DKK"));
 
-
         initializeChart();
         RecyclerView recyclerView = root.findViewById(R.id.expense_items_recycle_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -189,7 +188,7 @@ public class HomeFragment extends Fragment implements TransactionItemAdapter.OnL
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onListItemClick(SectionOrRow clickedRow) {
-        PopUpTransaction popUpClass = new PopUpTransaction(clickedRow);
+        PopUpTransaction popUpClass = new PopUpTransaction(clickedRow, homeViewModel, getViewLifecycleOwner());
         popUpClass.showPopupWindow(root);
     }
 }

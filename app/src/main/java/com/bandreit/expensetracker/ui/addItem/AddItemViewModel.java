@@ -45,10 +45,6 @@ public class AddItemViewModel extends ViewModel {
         transactionItemRepository.addExpenseItem(expenseItemToAdd.getValue());
     }
 
-    public LiveData<TransactionItem> getCurrentExpenseItem() {
-        return expenseItemToAdd;
-    }
-
     public void selectCategory(Category clickedCategory) {
         localTransactionItem.setCategory(clickedCategory);
         expenseItemToAdd.setValue(localTransactionItem);
