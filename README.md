@@ -8,7 +8,8 @@ Getting your head around the Danish tax system is also difficult for the beginne
 
 ## Must have
 
-- [ ] User can create an account, log in, log out, set prefferences
+- [x] User can create an account, log in, log out
+- [x] User can set prefferences
 - [x] User can keep track of live balance
 - [x] User can see a list of all the recent transactions logged
 - [x] User can add, edit and delete transactions with details (title, amount, date, etc.) into the app
