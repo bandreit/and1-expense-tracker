@@ -19,7 +19,7 @@ Getting your head around the Danish tax system is also difficult for the beginne
 - [ ] User can set goals for a specifc amount of money and see the progress
 
 ## Should have
-- [ ] User can convert through currencies 
+- [x] User can convert through currencies 
 - [ ] User can input the weight and cost of an item and get the quantity/price or price/quantity rate
 
 ## Could have
