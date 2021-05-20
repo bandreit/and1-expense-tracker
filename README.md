@@ -1,6 +1,8 @@
 # and1-expense-tracker
 Expense tracker app for AND1Y class
 
+https://www.youtube.com/watch?v=Je2r3Qu3f48
+
 Most of the students start earning money around this time of their life (me included) and so managing their expenses becomes a new challange.
 After searching for some good apps to help me manage my money ,
 I found out that most of them are built around the idea of the American finance system, a lot of them are subscription based and don't fit my needs.
